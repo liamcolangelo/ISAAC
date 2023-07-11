@@ -2,11 +2,19 @@ import asyncio
 import websockets
 from sys import exit
 
+### Unless absolutely necessary DO NOT CHANGE this file ###
+### Only the handler may be changed, but I suggest outsourcing work to another file. ###
+
 class Communicator:
-    def __init__(self, websocket):
+    def __init__(self):
+        self.is_ready = False
+
+    def set_websocket(self, websocket):
         self.websocket = websocket
+        self.is_ready = True
  
-    async def handle_message(message, websocket):
+    async def handle_message(self, message):
+        ### Handle messages from java here ###
         print("Received message: ", message)
 
 
@@ -16,18 +24,27 @@ class Communicator:
 
 
 async def server(websocket, path):
-    global communicator
-    communicator = Communicator(websocket)
+    communicator.set_websocket(websocket)
     try:
         while True:
-            await communicator.send_message("Hello from Python!")
             message = await websocket.recv()
-            await communicator.handle_message(message, websocket)
+            await communicator.handle_message(message)
     except:
         exit()
 
 
-if __name__ == '__main__':
+def GUI_main():
     start_server = websockets.serve(server, 'localhost', 8000)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
+
+
+def start_GUI_loop():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(GUI_main())
+
+
+communicator = Communicator()
+if __name__ == '__main__':
+    GUI_main()

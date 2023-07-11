@@ -3,13 +3,16 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URI;
 
 public class App {
     private WebSocketClient webSocketClient;
     private JFrame frame;
-    private JLabel label;
+    private JTextField text_field;
 
     public App() {
         // Create and configure the JFrame
@@ -18,8 +21,9 @@ public class App {
         frame.setLayout(new BorderLayout());
 
         // Create and add GUI components to the JFrame
-        label = new JLabel("Hello, World!");
-        frame.add(label, BorderLayout.CENTER);
+        text_field = new JTextField("Hello, World!");
+        frame.add(text_field, BorderLayout.CENTER);
+        text_field.addActionListener(new TextListener());
 
         // Configure WebSocketClient and establish the connection
         try {
@@ -32,7 +36,7 @@ public class App {
                 @Override
                 public void onMessage(String message) {
                     System.out.println("Received message: " + message);
-                    label.setText(message);
+                    text_field.setText(message);
                 }
 
                 @Override
@@ -67,6 +71,22 @@ public class App {
         // Set the size and visibility of the JFrame
         frame.setSize(400, 300);
         frame.setVisible(true);
+    }
+
+    public void sendMessage(String message)
+    {
+        if (webSocketClient != null && webSocketClient.isOpen()) {
+            webSocketClient.send(message);
+            System.out.println("Sent message: " + message);
+        } else {
+            System.out.println("WebSocket connection is not open");
+        }
+    }
+
+    private class TextListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            sendMessage(text_field.getText());
+        }
     }
 
     public static void main(String[] args) {
