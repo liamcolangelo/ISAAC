@@ -1,21 +1,21 @@
 package com.liamcolangelo;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 
+// Change nothing in this file except what comments clearly allow.
 public class App {
     private WebSocketClient webSocketClient;
     private JFrame frame;
+    // Components of JFram to be accesible by several parts of the program
     private JTextField text_field;
+    // End of JFrame components
 
     public App() {
-        // Create and configure the JFrame
         frame = new JFrame("My GUI App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -24,8 +24,9 @@ public class App {
         text_field = new JTextField("Hello, World!");
         frame.add(text_field, BorderLayout.CENTER);
         text_field.addActionListener(new TextListener());
+        // End of GUI components
 
-        // Configure WebSocketClient and establish the connection
+
         try {
             webSocketClient = new WebSocketClient(new URI("ws://localhost:8000/")) {
                 @Override
@@ -50,7 +51,7 @@ public class App {
                 }
             };
 
-            // Start the WebSocketClient in a separate thread
+
             Thread webSocketThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -68,7 +69,7 @@ public class App {
     }
 
     public void run() {
-        // Set the size and visibility of the JFrame
+        // Set the size of JFrame (only change this)
         frame.setSize(400, 300);
         frame.setVisible(true);
     }
@@ -83,11 +84,13 @@ public class App {
         }
     }
 
+    // Add event listeners here
     private class TextListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             sendMessage(text_field.getText());
         }
     }
+    // End of event listeners
 
     public static void main(String[] args) {
         App app = new App();
