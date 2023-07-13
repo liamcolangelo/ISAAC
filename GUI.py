@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+import threading
 from sys import exit
 
 ### Unless absolutely necessary DO NOT CHANGE this file ###
@@ -15,7 +16,21 @@ class Communicator:
  
     async def handle_message(self, message):
         ### Handle messages from java here ###
-        print("Received message: ", message)
+        try:
+            type = int(message[0:4])
+        except ValueError:
+            print("Incoreect header for message")
+        message = message[5:]
+        if type == 0:
+            print("Debug: " + message)
+        elif type == 100:
+            # process random information
+            pass
+        elif type == 200:
+            print("JARVIS received input: " + message)
+        else:
+            print("Code not implemented yet")
+
 
 
     async def send_message(self, message):
