@@ -27,7 +27,7 @@ class Communicator:
             # process random information
             pass
         elif type == 200:
-            print("JARVIS received input: " + message)
+            print("ISAAC received input: " + message)
         else:
             print("Code not implemented yet")
 

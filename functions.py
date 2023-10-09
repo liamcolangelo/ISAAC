@@ -1,5 +1,5 @@
 import asyncio
-### Place various functions used by all of JARVIS in this file ###
+### Place various functions used by all of ISAAC in this file ###
 
 import python_weather
 

@@ -11,7 +11,7 @@ public class App {
     private WebSocketClient webSocketClient;
     private JFrame frame;
     // Components of JFram to be accesible by several parts of the program
-    private JTextField JARVIS_field;
+    private JTextField ISAAC_field;
     private JLabel weather;
     // End of JFrame components
 
@@ -21,9 +21,9 @@ public class App {
         frame.setLayout(new GridLayout(2,1,4,4));
 
         // Create and add GUI components to the JFrame
-        JARVIS_field = new JTextField("Hello, World!"); // Center this at some point
-        frame.add(JARVIS_field);
-        JARVIS_field.addActionListener(new JARVISFieldListener());
+        ISAAC_field = new JTextField("Hello, World!"); // Center this at some point
+        frame.add(ISAAC_field);
+        ISAAC_field.addActionListener(new ISAACFieldListener());
         weather = new JLabel("Weather", JLabel.CENTER);
         weather.setFont(new Font("Arial", Font.PLAIN, 30));
         frame.add(weather);
@@ -46,7 +46,7 @@ public class App {
                     } else if (type == 0001) {
                         // Process information here (not displayed)
                     } else if (type == 0002) {
-                        JARVIS_field.setText(message);
+                        ISAAC_field.setText(message);
                     } else if (type == 0003) {
                         weather.setText(message);
                     } else {
@@ -99,9 +99,9 @@ public class App {
     }
 
     // Add event listeners here
-    private class JARVISFieldListener implements ActionListener {
+    private class ISAACFieldListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            sendMessage("0200:" + JARVIS_field.getText());
+            sendMessage("0200:" + ISAAC_field.getText());
         }
     }
     // End of event listeners

@@ -1,3 +1,6 @@
+# The name of this assistant is I.S.A.A.C. (Interactive Systematic Automated Assistive Computer)
+# To run the Java GUI, enter the 'java_gui' directory and run 'mvn exec:java'
+
 from GUI import *
 import threading
 from time import sleep
@@ -52,12 +55,12 @@ if __name__ == '__main__':
     * 0000 : Sends debug information (shoud be printed to console)
 
     * 0001 : Sends any information (not displayed)
-    * 0002 : Sends information to display (JARVIS response box)
+    * 0002 : Sends information to display (ISAAC response box)
     * 0003 : Sends weather information
     * 0004 : 
 
     * 0100 : Sends any information (not displayed)
-    * 0200 : Sends information from JARVIS input field
+    * 0200 : Sends information from ISAAC input field
     * 0300 : 
 """
 ### End of codes to/from Java ###

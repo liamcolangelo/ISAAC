@@ -5,10 +5,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.liamcolangelo</groupId>
-  <artifactId>jarvis</artifactId>
+  <artifactId>isaac</artifactId>
   <version>0.1</version>
 
-  <name>jarvis</name>
+  <name>isaac</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
