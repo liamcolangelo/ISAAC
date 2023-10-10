@@ -16,6 +16,8 @@ if __name__ == '__main__':
     # Ensures that the java GUI connects before any messages are sent
     while not communicator.is_ready:
         pass
+    
+    client = functions.init_alpha()
     weather_thread = threading.Thread(target=functions.weather_main, daemon=True)
     weather_thread.start()
     

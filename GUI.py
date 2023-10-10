@@ -1,6 +1,7 @@
 import asyncio
 import websockets
 import threading
+import functions
 from sys import exit
 
 ### Unless absolutely necessary DO NOT CHANGE this file ###
@@ -28,6 +29,7 @@ class Communicator:
             pass
         elif type == 200:
             print("ISAAC received input: " + message)
+            threading.Thread(target=functions.query_handler, args=message, daemon=True)
         else:
             print("Code not implemented yet")
 
