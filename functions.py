@@ -1,5 +1,7 @@
 import asyncio
 import wolframalpha
+import wikipedia
+import GUI
 ### Place various functions used by all of ISAAC in this file ###
 
 import python_weather
@@ -27,8 +29,14 @@ def alpha_response(question):
         answer = next(res.results).text
         return answer
     except StopIteration:
-        return "No answer"
+        return None
+
+def info_response(query):
+    answer = alpha_response(query)
+    if answer == None:
+        answer = wikipedia.summary(query, sentences=3)
+    return "According to wikipedia: " + answer
 
 def query_handler(query):
-    print("Received " + query)
-    print(alpha_response(query))
+    asyncio.set_event_loop(asyncio.new_event_loop())
+    asyncio.get_event_loop().run_until_complete((GUI.communicator.send_message("0002" + info_response(query))))

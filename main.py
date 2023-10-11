@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
 ### Simple templates of various functionalities ###
     ## How to send a message to java:
-        # asyncio.get_event_loop().run_until_complete((communicator.send_message("Python: while-true")))
+        # asyncio.get_event_loop().run_until_complete((communicator.send_message("A message")))
 
 ### End of templates ###
 

@@ -29,7 +29,8 @@ class Communicator:
             pass
         elif type == 200:
             print("ISAAC received input: " + message)
-            threading.Thread(target=functions.query_handler, args=message, daemon=True)
+            handler = threading.Thread(target=functions.query_handler, args=[message], daemon=True)
+            handler.start()
         else:
             print("Code not implemented yet")
 
@@ -63,5 +64,7 @@ def start_GUI_loop():
 
 
 communicator = Communicator()
+
+
 if __name__ == '__main__':
     GUI_main()
