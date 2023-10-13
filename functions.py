@@ -35,8 +35,11 @@ def info_response(query):
     answer = alpha_response(query)
     if answer == None:
         answer = wikipedia.summary(query, sentences=3)
-    return "According to wikipedia: " + answer
+    return "xAccording to wikipedia: " + answer # The "x" is for formatting in java (I don't know why this is necessary)
 
 def query_handler(query):
     asyncio.set_event_loop(asyncio.new_event_loop())
     asyncio.get_event_loop().run_until_complete((GUI.communicator.send_message("0002" + info_response(query))))
+
+# TODO! Everything is being sent to wikipedia instead of WolframAlpha
+# TODO! Add scroll bar to java GUI
