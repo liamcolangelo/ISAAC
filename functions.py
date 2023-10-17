@@ -25,21 +25,15 @@ def init_alpha():
 
 def alpha_response(question):
     res = client.query(question)
-    try:
-        answer = next(res.results).text
-        return answer
-    except StopIteration:
-        return None
+    return next(res.results).text
 
 def info_response(query):
-    answer = alpha_response(query)
-    if answer == None:
-        answer = wikipedia.summary(query, sentences=3)
-    return "xAccording to wikipedia: " + answer # The "x" is for formatting in java (I don't know why this is necessary)
+    try:
+        return "x" + alpha_response(query)
+    except StopIteration:
+        return "xAccording to wikipedia: " + wikipedia.summary(query, sentences=3)
+        # The "x" is for formatting in java (I don't know why this is necessary)
 
 def query_handler(query):
     asyncio.set_event_loop(asyncio.new_event_loop())
     asyncio.get_event_loop().run_until_complete((GUI.communicator.send_message("0002" + info_response(query))))
-
-# TODO! Everything is being sent to wikipedia instead of WolframAlpha
-# TODO! Add scroll bar to java GUI

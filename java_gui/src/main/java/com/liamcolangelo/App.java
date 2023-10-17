@@ -3,9 +3,7 @@ import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import javax.swing.*;
 import javax.swing.event.*;
-import javax.swing.text.Document;
 import java.awt.*;
-import java.awt.event.*;
 import java.net.URI;
 
 // Change nothing in this file except what comments clearly allow.
@@ -26,7 +24,8 @@ public class App {
         ISAAC_field = new JTextArea("Hello, World!", 4, 20); // Center this at some point
         ISAAC_field.setLineWrap(true);
         ISAAC_field.setWrapStyleWord(true);
-        frame.add(ISAAC_field);
+        JScrollPane scroll_pane = new JScrollPane(ISAAC_field);
+        frame.add(scroll_pane);
         ISAAC_field.getDocument().addDocumentListener(new ISAAC_listener());
         weather = new JLabel("Weather", JLabel.CENTER);
         weather.setFont(new Font("Arial", Font.PLAIN, 30));
