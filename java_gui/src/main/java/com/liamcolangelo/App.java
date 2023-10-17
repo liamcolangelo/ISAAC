@@ -2,8 +2,8 @@ package com.liamcolangelo;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import javax.swing.*;
+import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.net.URI;
 
 // Change nothing in this file except what comments clearly allow.
@@ -11,7 +11,7 @@ public class App {
     private WebSocketClient webSocketClient;
     private JFrame frame;
     // Components of JFram to be accesible by several parts of the program
-    private JTextField ISAAC_field;
+    private JTextArea ISAAC_field;
     private JLabel weather;
     // End of JFrame components
 
@@ -21,9 +21,12 @@ public class App {
         frame.setLayout(new GridLayout(2,1,4,4));
 
         // Create and add GUI components to the JFrame
-        ISAAC_field = new JTextField("Hello, World!"); // Center this at some point
-        frame.add(ISAAC_field);
-        ISAAC_field.addActionListener(new ISAACFieldListener());
+        ISAAC_field = new JTextArea("Hello, World!", 4, 20); // Center this at some point
+        ISAAC_field.setLineWrap(true);
+        ISAAC_field.setWrapStyleWord(true);
+        JScrollPane scroll_pane = new JScrollPane(ISAAC_field);
+        frame.add(scroll_pane);
+        ISAAC_field.getDocument().addDocumentListener(new ISAAC_listener());
         weather = new JLabel("Weather", JLabel.CENTER);
         weather.setFont(new Font("Arial", Font.PLAIN, 30));
         frame.add(weather);
@@ -99,9 +102,32 @@ public class App {
     }
 
     // Add event listeners here
+    /*
     private class ISAACFieldListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             sendMessage("0200:" + ISAAC_field.getText());
+        }
+    }
+    */
+
+    private class ISAAC_listener implements DocumentListener {
+        public void insertUpdate(DocumentEvent e) {
+            updateLog(e, "inserted into");
+        }
+
+        public void removeUpdate(DocumentEvent e) {
+            // updateLog(e, "removed from");
+        }
+
+        public void changedUpdate(DocumentEvent e) {
+            // Don't worry about this
+        }
+
+        public void updateLog(DocumentEvent e, String action) {
+            int length = ISAAC_field.getText().length();
+            if (ISAAC_field.getText().charAt(length - 1) == '\n') {
+                sendMessage("0200:" + ISAAC_field.getText().substring(0, length - 1));
+            }
         }
     }
     // End of event listeners

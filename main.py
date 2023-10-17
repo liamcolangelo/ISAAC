@@ -16,6 +16,8 @@ if __name__ == '__main__':
     # Ensures that the java GUI connects before any messages are sent
     while not communicator.is_ready:
         pass
+    
+    client = functions.init_alpha()
     weather_thread = threading.Thread(target=functions.weather_main, daemon=True)
     weather_thread.start()
     
@@ -38,7 +40,7 @@ if __name__ == '__main__':
 
 ### Simple templates of various functionalities ###
     ## How to send a message to java:
-        # asyncio.get_event_loop().run_until_complete((communicator.send_message("Python: while-true")))
+        # asyncio.get_event_loop().run_until_complete((communicator.send_message("A message")))
 
 ### End of templates ###
 
