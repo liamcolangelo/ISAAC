@@ -2,9 +2,10 @@ import asyncio
 import wolframalpha
 import wikipedia
 import GUI
-### Place various functions used by all of ISAAC in this file ###
-
 import python_weather
+
+
+### Place various functions used by all of ISAAC in this file ###
 
 async def get_weather():
     async with python_weather.Client(unit=python_weather.IMPERIAL) as client:
