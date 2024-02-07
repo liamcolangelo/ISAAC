@@ -1,7 +1,6 @@
 import asyncio
 import wolframalpha
 import wikipedia
-import GUI
 import python_weather
 
 
@@ -30,11 +29,7 @@ def alpha_response(question):
 
 def info_response(query):
     try:
-        return "x" + alpha_response(query)
+        return alpha_response(query)
     except StopIteration:
-        return "xAccording to wikipedia: " + wikipedia.summary(query, sentences=3)
-        # The "x" is for formatting in java (I don't know why this is necessary)
-
-def query_handler(query):
-    asyncio.set_event_loop(asyncio.new_event_loop())
-    asyncio.get_event_loop().run_until_complete((GUI.communicator.send_message("0002" + info_response(query))))
+        return "According to wikipedia: " + wikipedia.summary(query, sentences=3)
+        

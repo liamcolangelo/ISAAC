@@ -1,23 +1,15 @@
-# The name of this assistant is I.S.A.A.C. (Interactive Systematic Automated Assistive Computer)
-# To run the Java GUI, enter the 'java_gui' directory and run 'mvn exec:java'
-
-from GUI import *
 import threading
 from time import sleep
 import functions
+from multiprocessing import Process
+import asyncio
+import os
 
 
 if __name__ == '__main__':
+    os.system("bash gui_runner.sh")
     ### Various threads ###
-    # Begin GUI thread first to ensure fewer issues
-    GUI_thread = threading.Thread(target=start_GUI_loop, daemon=True)
-    GUI_thread.start()
-    print("Ready to connect")
-    # Ensures that the java GUI connects before any messages are sent
-    while not communicator.is_ready:
-        pass
-    
-    client = functions.init_alpha()
+    functions.init_alpha()
     weather_thread = threading.Thread(target=functions.weather_main, daemon=True)
     weather_thread.start()
     
@@ -27,10 +19,10 @@ if __name__ == '__main__':
     # This thread should last the longest (possibly while-true loop)
 
 
-
     while (True):
+        
         temperature = asyncio.get_event_loop().run_until_complete(functions.get_weather())
-        asyncio.get_event_loop().run_until_complete(communicator.send_message("0003:" + temperature))
+        print(temperature)
         sleep(1800) # 30 minutes
 
     ### End of main thread ###
