@@ -14,7 +14,7 @@ async def get_weather():
 def weather_main():
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(get_weather())
+    return loop.run_until_complete(get_weather())
 
 def init_alpha():
     global client
