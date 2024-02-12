@@ -25,11 +25,7 @@ def handleText():
 
 # Gets and displays the weather
 def weather_handler():
-    try:
-        weather['text'] = "Current temperature: " + weather_main()
-    except Exception as e:
-        print("Weather error:\n" + str(e))
-        weather['text'] = "Weather is currently disconnected"
+    weather['text'] = weather_main()
 
 
 # Updates the screen periodically
