@@ -1,21 +1,30 @@
-import asyncio
 import wolframalpha
 import wikipedia
-import GUI
-import python_weather
+import requests
 
 
 ### Place various functions used by all of ISAAC in this file ###
 
-async def get_weather():
-    async with python_weather.Client(unit=python_weather.IMPERIAL) as client:
-        weather = await client.get("Marmora, NJ")
-        return str(weather.current.temperature)
-
-def weather_main():
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(get_weather())
+def weather_main() -> str:
+    with open('weatherapi.txt', 'r') as f:
+        contents = f.read().split("\n")
+        api_key = contents[0]
+        city_name = contents[1]
+        f.close()
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    complete_url = base_url + "appid=" + api_key + "&q=" + city_name
+    response = requests.get(complete_url)
+    x = response.json()
+    if x["cod"] != "404":
+        y = x["main"]
+        current_temperature = int(((float(y["temp"]) - 273) * 9 / 5) + 32)
+        current_pressure = y["pressure"]
+        current_humidity = y["humidity"]
+        z = x["weather"]
+        weather_description = z[0]["description"]
+        return current_temperature
+    else:
+        return "Weather is currently unavailable"
 
 def init_alpha():
     global client
@@ -30,11 +39,7 @@ def alpha_response(question):
 
 def info_response(query):
     try:
-        return "x" + alpha_response(query)
+        return alpha_response(query)
     except StopIteration:
-        return "xAccording to wikipedia: " + wikipedia.summary(query, sentences=3)
-        # The "x" is for formatting in java (I don't know why this is necessary)
-
-def query_handler(query):
-    asyncio.set_event_loop(asyncio.new_event_loop())
-    asyncio.get_event_loop().run_until_complete((GUI.communicator.send_message("0002" + info_response(query))))
+        return "According to wikipedia: " + wikipedia.summary(query, sentences=3)
+        
